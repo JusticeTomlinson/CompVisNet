@@ -5,15 +5,17 @@ import torchvision
 import torchvision.transforms as transforms
 
 
-def test_model(model, testloader):
+def test_model(model, testloader, device):
+    model.to(device)
+
     criterion = nn.CrossEntropyLoss()
     correct = 0
     total = 0
     test_loss = 0.0
     with torch.no_grad():  # Since we're not training, we don't need to calculate gradients
-        for data in testloader:
-            images, labels = data
-            outputs = model(images)
+        for inputs, labels in testloader:
+            inputs, labels = inputs.to(device), labels.to(device)   # Transfer data to the device
+            outputs = model(inputs)
             loss = criterion(outputs, labels)
             test_loss += loss.item()
             _, predicted = torch.max(outputs.data, 1)

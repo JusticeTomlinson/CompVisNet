@@ -5,7 +5,9 @@ import torchvision
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 
-def train_model(model, trainloader, epochs=10, learning_rate=0.001):
+def train_model(model, trainloader, device, epochs, learning_rate=0.001):
+    model.train()
+    model.to(device)
     criterion = nn.CrossEntropyLoss()
 
     optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)
@@ -16,13 +18,11 @@ def train_model(model, trainloader, epochs=10, learning_rate=0.001):
     for epoch in range(epochs):
         model.train()
         running_loss = 0.0
-        for i, data in enumerate(trainloader, 0):
-            inputs, labels = data
+        for inputs, labels in trainloader:
+            inputs, labels = inputs.to(device), labels.to(device)
 
-            # Zero the parameter gradients
             optimizer.zero_grad()
 
-            # Forward + backward + optimize
             outputs = model(inputs)
             loss = criterion(outputs, labels)
             loss.backward()
@@ -40,9 +40,9 @@ def train_model(model, trainloader, epochs=10, learning_rate=0.001):
         total = 0
         model.eval()  # Set model to evaluation mode
         with torch.no_grad():
-            for data in trainloader:
-                images, labels = data
-                outputs = model(images)
+            for inputs, labels in trainloader:
+                inputs, labels = inputs.to(device), labels.to(device)
+                outputs = model(inputs)
                 _, predicted = torch.max(outputs.data, 1)
                 total += labels.size(0)
                 correct += (predicted == labels).sum().item()
