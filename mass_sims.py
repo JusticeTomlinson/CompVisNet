@@ -49,31 +49,31 @@ def get_omniglot_loaders(batch_size=64):
 def mass_test_cnn_models(trainloader, testloader, one_layer_configs, two_layer_configs, three_layer_configs, num_classes, num_epochs):
     one_layer_results, two_layer_results, three_layer_results = [], [], []
 
-    # print("Now Training One Layer Models")
-    # for config in one_layer_configs:
+    print("Now Training One Layer Models")
+    for config in one_layer_configs:
 
-    #     in_channels1, out_channels1, kernel_size1, stride1, padding1, dilation1 = config
+        in_channels1, out_channels1, kernel_size1, stride1, padding1, dilation1 = config
             
-    #     model = OneLayerCNN(in_channels1, out_channels1, kernel_size1, stride1, padding1, dilation1,
-    #                                 num_classes)
-    #     model.to(device)
+        model = OneLayerCNN(in_channels1, out_channels1, kernel_size1, stride1, padding1, dilation1,
+                                    num_classes)
+        model.to(device)
 
-    #     print(f"Training model: conv_config={config}")
-    #     train_model(model, trainloader, device, epochs=num_epochs)
+        print(f"Training model: conv_config={config}")
+        train_model(model, trainloader, device, epochs=num_epochs)
             
-    #     print("Testing model...")
-    #     accuracy = test_model(model, testloader, device)  
+        print("Testing model...")
+        accuracy = test_model(model, testloader, device)  
             
-    #     one_layer_results.append((config, accuracy))
+        one_layer_results.append((config, accuracy))
 
     print("Now Training Two Layer Models")
     for config in two_layer_configs:
 
-        in_channels1, out_channels1, kernel_size1, stride1, padding1, dilation1, in_channels2, out_channels2, kernel_size2, stride2, padding2, dilation2 = config
-        in_channels1, out_channels1, kernel_size1, stride1, padding1, dilation1, out_channels2, kernel_size2, stride2, padding2, dilation2
+        in_channels1, out_channels1, kernel_size1, stride1, padding1, dilation1, out_channels2, kernel_size2, stride2, padding2, dilation2 = config
+
         model = TwoLayerCNN(in_channels1, out_channels1, kernel_size1, stride1, padding1, dilation1,
-                                    in_channels2, out_channels2, kernel_size2, stride2, padding2, dilation2,
-                                    num_classes)
+                        out_channels1, out_channels2, kernel_size2, stride2, padding2, dilation2,
+                        num_classes)
         model.to(device)
 
         print(f"Training model: conv_config={config}")

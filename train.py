@@ -12,8 +12,8 @@ def train_model(model, trainloader, device, epochs, learning_rate=0.001):
 
     optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)
 
-    losses = []  # To store average loss per epoch
-    accuracies = []  # To store accuracy per epoch
+    losses = []
+    accuracies = []
 
     for epoch in range(epochs):
         model.train()
