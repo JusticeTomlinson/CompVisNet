@@ -51,7 +51,7 @@ def mass_test_cnn_models(trainloader, testloader, one_layer_configs, two_layer_c
 
     print("Now Training One Layer Models")
     for config in one_layer_configs:
-
+        model_type = '1 hidden'
         in_channels1, out_channels1, kernel_size1, stride1, padding1, dilation1 = config
             
         model = OneLayerCNN(in_channels1, out_channels1, kernel_size1, stride1, padding1, dilation1,
@@ -59,15 +59,16 @@ def mass_test_cnn_models(trainloader, testloader, one_layer_configs, two_layer_c
         model.to(device)
 
         print(f"Training model: conv_config={config}")
-        train_model(model, trainloader, device, epochs=num_epochs)
+        train_model(model, trainloader, device, num_epochs, config, model_type=model_type)
             
         print("Testing model...")
-        accuracy = test_model(model, testloader, device)  
+        accuracy = test_model(model, testloader, device, config, model_type=model_type)  
             
         one_layer_results.append((config, accuracy))
 
     print("Now Training Two Layer Models")
     for config in two_layer_configs:
+        model_type = '2 hidden'
 
         in_channels1, out_channels1, kernel_size1, stride1, padding1, dilation1, out_channels2, kernel_size2, stride2, padding2, dilation2 = config
 
@@ -77,15 +78,16 @@ def mass_test_cnn_models(trainloader, testloader, one_layer_configs, two_layer_c
         model.to(device)
 
         print(f"Training model: conv_config={config}")
-        train_model(model, trainloader, device, epochs=num_epochs)
+        train_model(model, trainloader, device, num_epochs, config, model_type=model_type)
             
         print("Testing model...")
-        accuracy = test_model(model, testloader, device)  
+        accuracy = test_model(model, testloader, device, config, model_type=model_type)  
             
         two_layer_results.append((config, accuracy))
 
     print("Now Training Three Layer Models")
     for config in three_layer_configs:
+        model_type = '3 hidden'
 
         in_channels1, out_channels1, kernel_size1, stride1, padding1, dilation1, \
         in_channels2, out_channels2, kernel_size2, stride2, padding2, dilation2, \
@@ -98,10 +100,11 @@ def mass_test_cnn_models(trainloader, testloader, one_layer_configs, two_layer_c
         model.to(device)
 
         print(f"Training model: conv_config={config}")
-        train_model(model, trainloader, device, epochs=num_epochs)
+        train_model(model, trainloader, device, num_epochs, config, model_type=model_type)
             
         print("Testing model...")
-        accuracy = test_model(model, testloader, device)  
+        accuracy = test_model(model, testloader, device, config, model_type=model_type)  
+  
             
         three_layer_results.append((config, accuracy))
     
@@ -109,7 +112,6 @@ def mass_test_cnn_models(trainloader, testloader, one_layer_configs, two_layer_c
 
 
 
-# fc_sizes = [64, 128, 256] # may want to make this variable too
 trainloader, testloader = get_mnist_loaders(batch_size=64)
 num_classes_mnist = 10
 
