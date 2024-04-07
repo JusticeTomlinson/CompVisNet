@@ -5,10 +5,10 @@ import torchvision
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 
-def train_model(model, trainloader, epochs=10, learning_rate=0.001):
+def train_model(model, trainloader, epochs=50, learning_rate=0.01):
     criterion = nn.CrossEntropyLoss()
 
-    optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, momentum = 0.9)
 
     losses = []  # To store average loss per epoch
     accuracies = []  # To store accuracy per epoch
@@ -72,8 +72,4 @@ def train_model(model, trainloader, epochs=10, learning_rate=0.001):
     plt.title("Training Loss and Accuracy")
     plt.show()
 
-# Example usage:
-# model = OneLayerCNN(...) or model = TwoLayerCNN(...) or model = ThreeLayerCNN(...)
-# Make sure to define the models with the correct parameters before using them here.
-# trainloader, testloader = ...  # Define your training and test data loaders
-# train_model(model, trainloader, testloader)
+# different optimizer -- adam, different lr = 0.01, data augmentation, more epochs
