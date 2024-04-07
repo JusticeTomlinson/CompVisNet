@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 def train_model(model, trainloader, epochs=50, learning_rate=0.01):
     criterion = nn.CrossEntropyLoss()
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, momentum = 0.9)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
     losses = []  # To store average loss per epoch
     accuracies = []  # To store accuracy per epoch
